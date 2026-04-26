@@ -1,4 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
+import waterImg from '../assets/drinkingWater.jpg';
+import streetLightImg from '../assets/streetLight2.jpg';
+import roadImg from '../assets/pothole.jpg';
+import repairedRoad from '../assets/repairedPothole.jpg';
+
 
 export const COMPLAINT_CATEGORIES = [
   { id: 'water', label: 'Water', icon: 'Droplets', color: 'bg-blue-100 text-blue-600' },
@@ -27,7 +32,7 @@ export const INITIAL_COMPLAINTS = [
     description: 'No drinking water supply since 3 days in the main street.',
     urgency: 'high',
     location: { lat: 28.6139, lng: 77.2090 },
-    imageBefore: 'https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&q=80&w=400',
+    imageBefore: waterImg,
     imageAfter: null,
     status: 'pending',
     supportCount: 12,
@@ -39,7 +44,7 @@ export const INITIAL_COMPLAINTS = [
     description: 'Street light broken near the temple.',
     urgency: 'medium',
     location: { lat: 28.6145, lng: 77.2100 },
-    imageBefore: 'https://images.unsplash.com/photo-1519777598826-6632612f0e08?auto=format&fit=crop&q=80&w=400',
+    imageBefore: streetLightImg,
     imageAfter: null,
     status: 'in_progress',
     supportCount: 5,
@@ -51,7 +56,7 @@ export const INITIAL_COMPLAINTS = [
     description: 'Pothole on the main road to the market.',
     urgency: 'low',
     location: { lat: 28.6150, lng: 77.2085 },
-    imageBefore: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=400',
+    imageBefore: roadImg,
     imageAfter: 'https://images.unsplash.com/photo-1619420674819-860002871b66?auto=format&fit=crop&q=80&w=400',
     status: 'resolved',
     supportCount: 20,

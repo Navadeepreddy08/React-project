@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, MapPin, CheckCircle, AlertCircle, ChevronLeft, ChevronRight, Droplets, Zap, Waves, Map, Loader2 } from 'lucide-react';
+import { Camera, MapPin, CheckCircle, AlertCircle, ChevronLeft, ChevronRight, Droplets, Zap, Waves, Map, Loader2, Upload } from 'lucide-react';
 import { useComplaints } from '../context/ComplaintContext';
 import { COMPLAINT_CATEGORIES, URGENCY_LEVELS } from '../utils/dummyData';
 
@@ -27,7 +27,8 @@ const ReportIssue = () => {
 
   const [generatedId, setGeneratedId] = useState(null);
 
-  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+  const uploadInputRef = useRef(null);
 
   const handleCategorySelect = (id) => {
     setFormData({ ...formData, category: id });
@@ -118,24 +119,33 @@ const ReportIssue = () => {
       <h2 className="text-xl font-bold text-slate-800">Add a Photo & Location</h2>
       
       <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-        <label className="block font-medium text-slate-700 mb-3">1. Take a Photo</label>
+        <label className="block font-medium text-slate-700 mb-3">1. Add a Photo</label>
         {formData.imageBefore ? (
-          <div className="relative rounded-xl overflow-hidden h-48 mb-4">
+          <div className="relative rounded-xl overflow-hidden h-48 mb-4 border border-slate-200">
             <img src={formData.imageBefore} alt="Preview" className="w-full h-full object-cover" />
             <button 
               onClick={() => setFormData({...formData, imageBefore: null})}
-              className="absolute top-2 right-2 bg-white/80 p-2 rounded-full text-red-500"
+              className="absolute top-2 right-2 bg-white/90 shadow-sm p-2 rounded-full text-red-500 hover:bg-red-50 transition-colors"
             >
               <AlertCircle size={20} />
             </button>
           </div>
         ) : (
-          <div 
-            onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-slate-300 rounded-xl h-40 flex flex-col items-center justify-center text-slate-500 cursor-pointer hover:bg-slate-50 transition-colors mb-4"
-          >
-            <Camera size={40} className="mb-2 text-slate-400" />
-            <span className="font-medium">Tap to open camera</span>
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div 
+              onClick={() => cameraInputRef.current?.click()}
+              className="border-2 border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center text-slate-500 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-600 transition-colors h-32"
+            >
+              <Camera size={32} className="mb-2" />
+              <span className="font-medium text-sm text-center">Take Photo</span>
+            </div>
+            <div 
+              onClick={() => uploadInputRef.current?.click()}
+              className="border-2 border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center text-slate-500 cursor-pointer hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-600 transition-colors h-32"
+            >
+              <Upload size={32} className="mb-2" />
+              <span className="font-medium text-sm text-center">Upload Image</span>
+            </div>
           </div>
         )}
         <input 
@@ -143,7 +153,14 @@ const ReportIssue = () => {
           accept="image/*" 
           capture="environment"
           className="hidden" 
-          ref={fileInputRef}
+          ref={cameraInputRef}
+          onChange={handleImageCapture}
+        />
+        <input 
+          type="file" 
+          accept="image/*" 
+          className="hidden" 
+          ref={uploadInputRef}
           onChange={handleImageCapture}
         />
         
