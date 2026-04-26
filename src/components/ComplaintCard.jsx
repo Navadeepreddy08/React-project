@@ -4,7 +4,9 @@ import { useComplaints } from '../context/ComplaintContext';
 import { STATUS_TYPES, URGENCY_LEVELS, COMPLAINT_CATEGORIES } from '../utils/dummyData';
 
 const ComplaintCard = ({ complaint }) => {
-  const { upvoteComplaint } = useComplaints();
+  const { upvoteComplaint, upvotedIds } = useComplaints();
+  
+  const isUpvoted = upvotedIds?.includes(complaint.id);
   
   const categoryInfo = COMPLAINT_CATEGORIES.find(c => c.id === complaint.category) || COMPLAINT_CATEGORIES[4];
   const urgencyInfo = URGENCY_LEVELS.find(u => u.id === complaint.urgency) || URGENCY_LEVELS[0];
@@ -62,9 +64,13 @@ const ComplaintCard = ({ complaint }) => {
           
           <button 
             onClick={handleUpvote}
-            className="flex items-center gap-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-full transition-colors text-sm font-medium"
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors text-sm font-medium ${
+              isUpvoted 
+                ? 'bg-emerald-600 text-white hover:bg-emerald-700' 
+                : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+            }`}
           >
-            <ThumbsUp size={16} />
+            <ThumbsUp size={16} className={isUpvoted ? "fill-current" : ""} />
             <span>{complaint.supportCount} Support</span>
           </button>
         </div>

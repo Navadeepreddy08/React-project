@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ComplaintProvider } from './context/ComplaintContext';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -12,7 +12,7 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <ComplaintProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -23,7 +23,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ComplaintProvider>
   );
 }

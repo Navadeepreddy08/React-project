@@ -4,7 +4,7 @@ import { useComplaints } from '../context/ComplaintContext';
 import { COMPLAINT_CATEGORIES, STATUS_TYPES, URGENCY_LEVELS } from '../utils/dummyData';
 
 const AdminDashboard = () => {
-  const { complaints, updateStatus } = useComplaints();
+  const { complaints, updateStatus, resetData } = useComplaints();
   const [filter, setFilter] = useState('all');
   const [activeComplaint, setActiveComplaint] = useState(null);
   
@@ -28,14 +28,26 @@ const AdminDashboard = () => {
 
   return (
     <div className="p-4 bg-slate-50 min-h-full">
-      <div className="flex items-center gap-2 mb-6">
-        <div className="p-2 bg-slate-800 text-white rounded-lg">
-          <Shield size={20} />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-slate-800 text-white rounded-lg">
+            <Shield size={20} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-800 leading-tight">Admin Portal</h2>
+            <p className="text-xs text-slate-500 font-medium">Manage Village Issues</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-bold text-slate-800 leading-tight">Admin Portal</h2>
-          <p className="text-xs text-slate-500 font-medium">Manage Village Issues</p>
-        </div>
+        <button
+          onClick={() => {
+            if (window.confirm("Are you sure you want to reset all data back to the default samples? This will remove any newly reported issues.")) {
+              resetData();
+            }
+          }}
+          className="px-3 py-1.5 bg-red-100 text-red-700 hover:bg-red-200 text-xs font-bold rounded-lg transition-colors border border-red-200"
+        >
+          Reset Data
+        </button>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">

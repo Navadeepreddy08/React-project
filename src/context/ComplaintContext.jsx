@@ -20,9 +20,21 @@ export const ComplaintProvider = ({ children }) => {
     return INITIAL_COMPLAINTS;
   });
 
+  const [upvotedIds, setUpvotedIds] = useState(() => {
+    const saved = localStorage.getItem('village_complaints_upvotes');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return [];
+  });
+
   useEffect(() => {
     localStorage.setItem('village_complaints_v2', JSON.stringify(complaints));
   }, [complaints]);
+
+  useEffect(() => {
+    localStorage.setItem('village_complaints_upvotes', JSON.stringify(upvotedIds));
+  }, [upvotedIds]);
 
   const addComplaint = (newComplaint) => {
     setComplaints([newComplaint, ...complaints]);
@@ -35,9 +47,17 @@ export const ComplaintProvider = ({ children }) => {
   };
 
   const upvoteComplaint = (id) => {
-    setComplaints(complaints.map(c => 
-      c.id === id ? { ...c, supportCount: c.supportCount + 1 } : c
-    ));
+    if (upvotedIds.includes(id)) {
+      setComplaints(complaints.map(c => 
+        c.id === id ? { ...c, supportCount: Math.max(0, c.supportCount - 1) } : c
+      ));
+      setUpvotedIds(upvotedIds.filter(upvotedId => upvotedId !== id));
+    } else {
+      setComplaints(complaints.map(c => 
+        c.id === id ? { ...c, supportCount: c.supportCount + 1 } : c
+      ));
+      setUpvotedIds([...upvotedIds, id]);
+    }
   };
 
   const getComplaintById = (id) => {
@@ -52,14 +72,23 @@ export const ComplaintProvider = ({ children }) => {
     return { total, resolved, pending, highPriority };
   };
 
+  const resetData = () => {
+    setComplaints(INITIAL_COMPLAINTS);
+    setUpvotedIds([]);
+    localStorage.removeItem('village_complaints_v2');
+    localStorage.removeItem('village_complaints_upvotes');
+  };
+
   return (
     <ComplaintContext.Provider value={{
       complaints,
+      upvotedIds,
       addComplaint,
       updateStatus,
       upvoteComplaint,
       getComplaintById,
-      getStats
+      getStats,
+      resetData
     }}>
       {children}
     </ComplaintContext.Provider>
