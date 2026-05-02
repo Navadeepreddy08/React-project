@@ -57,7 +57,7 @@ export const INITIAL_COMPLAINTS = [
     urgency: 'low',
     location: { lat: 28.6150, lng: 77.2085 },
     imageBefore: roadImg,
-    imageAfter: 'https://images.unsplash.com/photo-1619420674819-860002871b66?auto=format&fit=crop&q=80&w=400',
+    imageAfter: repairedRoad,
     status: 'resolved',
     supportCount: 20,
     createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
